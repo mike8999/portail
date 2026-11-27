@@ -1,5 +1,5 @@
 {
- "maj": "2026-11-27T01:37+00:00",
+ "maj": "2026-11-27T13:53+00:00",
  "apps": {
   "moniteur": {
    "statut": 200,
@@ -135,7 +135,22 @@
    "statut": 200,
    "modif": "2026-05-02",
    "vu": "initial"
+  },
+  "ix-repartition-postes-presentation": {
+   "statut": 200,
+   "modif": "2026-11-27",
+   "vu": "2026-11-27"
   }
  },
- "trouvees": []
+ "trouvees": [
+  {
+   "id": "ix-repartition-postes-presentation",
+   "nom": "Repartition postes presentation",
+   "desc": "",
+   "url": "https://mike8999.github.io/isole-x/repartition-postes-presentation/",
+   "host": "github",
+   "depot": "isole-x",
+   "dossier": "repartition-postes-presentation"
+  }
+ ]
 }
