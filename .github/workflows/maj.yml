@@ -1,0 +1,38 @@
+name: Mise à jour du portail
+
+on:
+  schedule:
+    - cron: "17 4 * * *"     # chaque jour vers 5 h (heure de Paris en hiver)
+  workflow_dispatch:
+    inputs:
+      captures:
+        description: "Refaire toutes les captures d'écran"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  maj:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Outils de capture
+        run: |
+          pip install playwright pillow
+          python -m playwright install --with-deps chromium
+      - name: Vérifier les applis, repérer les nouvelles, captures
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NETLIFY_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+        run: python scripts/maj.py ${{ inputs.captures && '--captures' || '' }}
+      - name: Enregistrer
+        run: |
+          git config user.name "portail-auto"
+          git config user.email "portail-auto@users.noreply.github.com"
+          git add donnees captures
+          git diff --cached --quiet || (git commit -m "Mise à jour automatique du portail" && git push)

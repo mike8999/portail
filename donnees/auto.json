@@ -1,0 +1,136 @@
+{
+ "maj": "2026-11-27T01:20+00:00",
+ "apps": {
+  "moniteur": {
+   "statut": 200,
+   "modif": "2026-11-26",
+   "vu": "initial"
+  },
+  "can": {
+   "statut": 200,
+   "modif": "2026-11-19",
+   "vu": "initial"
+  },
+  "subnet": {
+   "statut": 200,
+   "modif": "2026-03-15",
+   "vu": "initial"
+  },
+  "robot": {
+   "statut": 200,
+   "modif": "2026-03-12",
+   "vu": "initial"
+  },
+  "workshop": {
+   "statut": 200,
+   "modif": null,
+   "vu": "initial"
+  },
+  "ombrage": {
+   "statut": 200,
+   "modif": "2026-04-30",
+   "vu": "initial"
+  },
+  "chute": {
+   "statut": 200,
+   "modif": "2026-03-31",
+   "vu": "initial"
+  },
+  "pompe": {
+   "statut": 200,
+   "modif": "2026-02-22",
+   "vu": "initial"
+  },
+  "gymelec": {
+   "statut": 200,
+   "modif": "2026-04-02",
+   "vu": "initial"
+  },
+  "piles": {
+   "statut": 200,
+   "modif": "2026-05-06",
+   "vu": "initial"
+  },
+  "motored": {
+   "statut": 200,
+   "modif": "2026-03-26",
+   "vu": "initial"
+  },
+  "isolex": {
+   "statut": 200,
+   "modif": "2026-11-20",
+   "vu": "initial"
+  },
+  "jungle": {
+   "statut": 200,
+   "modif": "2026-11-26",
+   "vu": "initial"
+  },
+  "atelier": {
+   "statut": 200,
+   "modif": "2026-11-25",
+   "vu": "initial"
+  },
+  "neon": {
+   "statut": 200,
+   "modif": "2026-11-25",
+   "vu": "initial"
+  },
+  "evalproj": {
+   "statut": 200,
+   "modif": "2026-06-09",
+   "vu": "initial"
+  },
+  "casier": {
+   "statut": 200,
+   "modif": "2026-06-06",
+   "vu": "initial"
+  },
+  "defi12": {
+   "statut": 200,
+   "modif": "2026-04-28",
+   "vu": "initial"
+  },
+  "oral": {
+   "statut": 200,
+   "modif": "2026-04-28",
+   "vu": "initial"
+  },
+  "accroche": {
+   "statut": 200,
+   "modif": "2026-03-26",
+   "vu": "initial"
+  },
+  "laser": {
+   "statut": 200,
+   "modif": "2026-11-03",
+   "vu": "initial"
+  },
+  "isolefab": {
+   "statut": 200,
+   "modif": "2026-11-20",
+   "vu": "initial"
+  },
+  "presence": {
+   "statut": 200,
+   "modif": null,
+   "vu": "initial"
+  },
+  "postes": {
+   "statut": 200,
+   "modif": null,
+   "vu": "initial"
+  },
+  "impots": {
+   "statut": 200,
+   "modif": "2026-07-05",
+   "vu": "initial"
+  },
+  "calepinage": {
+   "statut": 200,
+   "modif": "2026-05-02",
+   "vu": "initial"
+  }
+ },
+ "trouvees": []
+}

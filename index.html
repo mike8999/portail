@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portail — applications STI2D de Mike</title>
+<meta name="description" content="Toutes mes applications publiées sur GitHub Pages et Netlify, rangées par catégorie.">
+<meta name="theme-color" content="#16324f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icones/icone-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icones/icone-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eef0ec; --surface:#fbfcfa; --surface2:#e3e6e0; --line:#c9cdc5; --line2:#a9aea4;
+  --text:#1b1e1a; --text2:#4c524a; --text3:#7a8077;
+  --ink:#16324f; --focus:#e0712b; --ok:#3f7d20; --ko:#c0262d;
+  --c-sin:#2463a6; --c-ee:#c2410c; --c-itec:#4d7c0f; --c-jeux:#7c3aed; --c-eval:#b4235a;
+  --c-fab:#0f766e; --c-classe:#a16207; --c-perso:#57534e; --c-neuf:#e0712b;
+  --r:6px; --shadow:0 1px 0 rgba(0,0,0,.04),0 2px 8px rgba(20,30,20,.06);
+}
+html[data-theme="dark"]{
+  --bg:#111412; --surface:#1a1e1b; --surface2:#242925; --line:#343a35; --line2:#4a514b;
+  --text:#e8ebe6; --text2:#adb4ab; --text3:#7e867c; --ink:#9cc3ea; --ok:#7bc24f; --ko:#f0646a;
+  --c-sin:#5b9be0; --c-ee:#f08a4b; --c-itec:#93c54b; --c-jeux:#a98bf5; --c-eval:#ea6f9b;
+  --c-fab:#3fb8aa; --c-classe:#d9a63a; --c-perso:#a8a29e; --c-neuf:#f28c4b;
+  --shadow:0 2px 10px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0}
+body{font-family:"IBM Plex Sans",system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.45;min-height:100vh}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+code{font-family:"IBM Plex Mono",monospace;font-size:.92em}
+
+/* ── En-tête : cartouche de plan ─────────────────────────────── */
+.head{border-bottom:2px solid var(--text);background:var(--surface)}
+.head-in{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr auto}
+.titre{padding:22px 24px 18px;border-right:1px solid var(--line)}
+.titre small{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--text3);letter-spacing:.06em;text-transform:uppercase}
+.titre h1{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:44px;line-height:1;letter-spacing:.01em;margin-top:4px}
+.titre h1 span{color:var(--ink)}
+.titre .maj{display:block;margin-top:8px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--text3)}
+.cartouche{display:grid;grid-template-columns:repeat(3,minmax(92px,auto));font-family:"IBM Plex Mono",monospace;font-size:12px}
+.cartouche>*{border-left:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px 14px;display:flex;flex-direction:column;justify-content:center}
+.cartouche>:nth-child(n+4){border-bottom:0}
+.cartouche b{font-family:"Barlow Condensed",sans-serif;font-size:26px;font-weight:600;line-height:1;color:var(--text)}
+.cartouche em{font-style:normal;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;font-size:11px}
+.cartouche button{all:unset;cursor:pointer;display:flex;flex-direction:column;justify-content:center;border-left:1px solid var(--line);padding:8px 14px}
+.cartouche button:hover{background:var(--surface2)}
+.cartouche button:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+.cartouche .ko b{color:var(--ko)}
+
+/* ── Barre d'outils ─────────────────────────────────────────── */
+.tools{max-width:1240px;margin:0 auto;padding:18px 24px 6px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.search{flex:1 1 260px;position:relative}
+.search input{width:100%;padding:10px 12px 10px 38px;border:1px solid var(--line2);border-radius:var(--r);background:var(--surface)}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text3)}
+.filters{display:flex;flex-wrap:wrap;gap:6px 14px}
+.fgroup{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.fgroup>span{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-right:2px}
+.chk{display:inline-flex;align-items:center;gap:6px;padding:5px 10px 5px 8px;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer;font-size:13px;user-select:none}
+.chk input{appearance:none;width:15px;height:15px;border:1.5px solid var(--line2);border-radius:3px;display:grid;place-content:center;margin:0;cursor:pointer;background:var(--surface);flex:none}
+.chk input[type=radio]{border-radius:50%}
+.chk input:checked{background:var(--k,var(--ink));border-color:var(--k,var(--ink))}
+.chk input:checked::after{content:"";width:8px;height:4px;border:2px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.chk:has(input:checked){border-color:var(--k,var(--ink))}
+.chk i{width:9px;height:9px;border-radius:2px;background:var(--k)}
+.chk.solo{border-radius:var(--r);justify-self:start}
+.bar2{max-width:1240px;margin:0 auto;padding:4px 24px 0;display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border:1px solid var(--line2);border-radius:var(--r);background:var(--surface);cursor:pointer;font-size:13px;font-weight:500;text-decoration:none}
+.btn:hover{border-color:var(--text)}
+.btn svg{width:15px;height:15px}
+.btn.on{background:var(--text);color:var(--surface);border-color:var(--text)}
+.btn.idee{border-color:var(--focus);color:var(--focus)}
+.btn.idee:hover{background:var(--focus);color:#fff}
+.btn.pri{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+.btn[hidden]{display:none}
+
+/* ── Sections et plaques ────────────────────────────────────── */
+main{max-width:1240px;margin:0 auto;padding:6px 24px 50px}
+.sec{margin-top:26px}
+.sec h2{display:flex;align-items:baseline;gap:10px;font-family:"Barlow Condensed",sans-serif;font-weight:600;font-size:24px;letter-spacing:.02em;text-transform:uppercase;padding-bottom:6px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.sec h2 i{align-self:center;width:12px;height:12px;border-radius:2px;background:var(--k)}
+.sec h2 small{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:14px}
+
+.tile{position:relative;aspect-ratio:1;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden;transition:transform .16s,border-color .16s,box-shadow .16s}
+.tile:hover,.tile:focus-within{transform:translateY(-3px);border-color:var(--k);box-shadow:0 8px 22px -8px color-mix(in srgb,var(--k) 55%,transparent)}
+.lien{position:absolute;inset:0;z-index:1;border-radius:var(--r)}
+.lien:focus-visible{outline-offset:-3px}
+.pic{flex:1;min-height:0;display:grid;place-items:center;color:var(--k);position:relative;overflow:hidden;
+  background:color-mix(in srgb,var(--k) 11%,var(--surface));
+  background-image:linear-gradient(color-mix(in srgb,var(--k) 9%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--k) 9%,transparent) 1px,transparent 1px);background-size:14px 14px}
+.pic>svg{width:46%;height:46%;transition:transform .25s}
+.tile:hover .pic>svg{transform:scale(1.08) rotate(-3deg)}
+.shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:0;transition:opacity .25s}
+.desc{position:absolute;left:0;right:0;bottom:0;padding:22px 10px 7px;font-size:12px;line-height:1.3;color:#fff;background:linear-gradient(transparent,rgba(10,14,12,.88) 45%);opacity:0;transform:translateY(6px);transition:opacity .2s,transform .2s}
+@media (hover:hover){
+  .tile:hover .shot,.tile:focus-within .shot{opacity:1}
+  .tile:hover .desc,.tile:focus-within .desc{opacity:1;transform:none}
+}
+.txt{padding:9px 11px 10px;border-top:2px solid var(--k)}
+.nom{font-weight:600;font-size:14px;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.4em}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-top:5px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--text3)}
+.host{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.host svg{width:12px;height:12px}
+.niv{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.acts{position:absolute;top:6px;right:6px;display:flex;gap:2px;z-index:2}
+.acts button,.acts a{width:30px;height:30px;border-radius:50%;border:0;background:transparent;color:var(--text3);cursor:pointer;display:grid;place-items:center;transition:opacity .15s,color .15s,background .15s}
+.acts svg{width:17px;height:17px}
+.acts .op{opacity:0}
+.tile:hover .acts .op,.acts .op:focus-visible{opacity:1}
+.acts button:hover,.acts a:hover{background:var(--surface);color:var(--text)}
+.tile:hover .acts button,.tile:hover .acts a{background:color-mix(in srgb,var(--surface) 88%,transparent)}
+.tile:hover .star.on{color:#e0a100}
+@media (hover:none){.acts .op{opacity:.7}}
+.star{opacity:.55}
+.tile:hover .star{opacity:1}
+.star.on{opacity:1;color:#e0a100}
+.star.on svg{fill:currentColor}
+.badges{position:absolute;top:8px;left:8px;display:flex;flex-direction:column;align-items:flex-start;gap:4px;z-index:2;pointer-events:none}
+.badge{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;padding:2px 6px;border-radius:3px;color:#fff;background:var(--k)}
+.badge.nouveau{background:var(--focus)}
+.badge.maj{background:var(--ink);color:var(--surface)}
+.badge.panne{background:var(--ko)}
+.tile.ko .pic>svg{opacity:.35}
+.tile.masque{opacity:.45;border-style:dashed}
+
+.edit-bar{display:none;position:absolute;right:6px;bottom:6px;gap:4px;z-index:3}
+body.edition .edit-bar{display:flex}
+body.edition .acts,body.edition .meta .niv{display:none}
+.edit-bar button{width:28px;height:28px;border-radius:5px;border:1px solid var(--line2);background:var(--surface);cursor:pointer;display:grid;place-items:center}
+.edit-bar button:hover{border-color:var(--text)}
+.edit-bar svg{width:14px;height:14px}
+.add{aspect-ratio:1;border:2px dashed var(--line2);border-radius:var(--r);background:transparent;cursor:pointer;display:none;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--text2);font-weight:500}
+.add svg{width:30px;height:30px}
+.add:hover{border-color:var(--text);color:var(--text)}
+body.edition .add{display:flex}
+.vide{margin:40px auto;text-align:center;color:var(--text3);max-width:520px}
+.bandeau-edit{display:none;max-width:1240px;margin:12px auto 0;padding:0 24px}
+.bandeau-edit p{padding:10px 14px;border:1px dashed var(--focus);border-radius:var(--r);background:color-mix(in srgb,var(--focus) 8%,var(--surface));font-size:13px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+body.edition .bandeau-edit{display:block}
+.bandeau-edit p span{flex:1 1 300px}
+footer{border-top:1px solid var(--line);padding:16px 24px;text-align:center;font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--text3)}
+body.eleves .prof{display:none!important}
+
+/* ── Fenêtres ───────────────────────────────────────────────── */
+dialog{border:1px solid var(--line2);border-radius:10px;background:var(--surface);color:var(--text);padding:0;width:min(520px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+dialog::backdrop{background:rgba(10,15,10,.45)}
+.dlg-h{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)}
+.dlg-h h3{font-family:"Barlow Condensed",sans-serif;font-size:24px;font-weight:600}
+.x{border:0;background:none;cursor:pointer;font-size:22px;line-height:1;color:var(--text2);padding:4px 8px}
+.dlg-b{padding:16px 18px;display:grid;gap:12px;max-height:68vh;overflow:auto}
+.f{display:grid;gap:4px;font-size:12.5px;font-weight:600;color:var(--text2)}
+.dlg-b input[type=text],.dlg-b input[type=url],.dlg-b textarea{width:100%;padding:8px 10px;border:1px solid var(--line2);border-radius:var(--r);background:var(--bg);font-weight:400;font-size:14px;color:var(--text)}
+.dlg-b textarea{min-height:70px;resize:vertical}
+#iTxt{min-height:110px}
+.choix{display:flex;flex-wrap:wrap;gap:6px;font-weight:400}
+.icones{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px;max-height:140px;overflow:auto;padding:2px}
+.icones label{cursor:pointer;position:relative}
+.icones input{position:absolute;opacity:0;pointer-events:none}
+.icones span{display:grid;place-items:center;aspect-ratio:1;border:1px solid var(--line);border-radius:5px;color:var(--text2)}
+.icones span svg{width:22px;height:22px}
+.icones input:checked+span{border:2px solid var(--ink);color:var(--ink);background:color-mix(in srgb,var(--ink) 8%,transparent)}
+.icones input:focus-visible+span{outline:2px solid var(--focus)}
+.dlg-f{display:flex;justify-content:flex-end;gap:8px;padding:12px 18px;border-top:1px solid var(--line)}
+.msg{font-size:13px;min-height:1.2em}
+.msg.ok{color:var(--ok)} .msg.err{color:var(--ko)}
+.hp{position:absolute;left:-9999px}
+.count{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--text3);text-align:right;margin-top:-8px}
+dialog.proj{width:100vw;height:100vh;max-width:none;max-height:none;border:0;border-radius:0;margin:0;background:#fff;color:#111;cursor:zoom-out}
+dialog.proj[open]{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2vh}
+.proj .qrbox{width:min(68vh,82vw);aspect-ratio:1}
+.proj .qrbox svg{width:100%;height:100%;display:block}
+.proj h3{font-family:"Barlow Condensed",sans-serif;font-size:clamp(28px,5vh,54px);font-weight:700;text-align:center;padding:0 4vw}
+.proj .u{font-family:"IBM Plex Mono",monospace;font-size:clamp(14px,2.4vh,24px);color:#444;word-break:break-all;text-align:center;padding:0 4vw}
+.proj .aide{font-size:13px;color:#888}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:var(--surface);padding:9px 16px;border-radius:var(--r);font-size:13px;transition:transform .25s;z-index:50;max-width:90vw}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@media (max-width:760px){
+  .head-in{grid-template-columns:1fr}
+  .titre{border-right:0;border-bottom:1px solid var(--line)}
+  .titre h1{font-size:36px}
+  .cartouche>:nth-child(3n+1){border-left:0}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+  .tools,.bar2,main,.bandeau-edit{padding-left:14px;padding-right:14px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <div class="head-in">
+    <div class="titre">
+      <small>Lycée · STI2D · SIN · EE · ITEC</small>
+      <h1>Mes <span>applications</span></h1>
+      <span class="maj" id="majInfo"></span>
+    </div>
+    <div class="cartouche" aria-label="Résumé">
+      <div><b id="nTotal">—</b><em>applis</em></div>
+      <div><b id="nGit">—</b><em>GitHub</em></div>
+      <div><b id="nNet">—</b><em>Netlify</em></div>
+      <div><b id="nFav">—</b><em>favoris</em></div>
+      <div id="cPanne"><b id="nPanne">—</b><em>en panne</em></div>
+      <button type="button" id="bTheme" title="Changer de thème (T)"><b id="themeIco">☾</b><em>thème</em></button>
+    </div>
+  </div>
+</header>
+
+<div class="tools">
+  <label class="search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+    <input type="search" id="q" placeholder="Rechercher une appli, un mot de la description… ( / )" autocomplete="off" aria-label="Rechercher">
+  </label>
+  <div class="filters">
+    <div class="fgroup" id="fCat"></div>
+    <div class="fgroup" id="fNiv"></div>
+    <div class="fgroup" id="fHost"></div>
+  </div>
+</div>
+<div class="bar2">
+  <button class="btn" id="bInstall" type="button" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Installer</button>
+  <button class="btn idee" id="bIdee" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>Boîte à idées</button>
+  <button class="btn" id="bQrPortail" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg>QR du portail</button>
+  <a class="btn prof" href="eleves/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg>Page élèves</a>
+  <button class="btn prof" id="bEdit" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h4L19 9l-4-4L4 16v4z"/></svg>Mode édition</button>
+</div>
+<div class="bandeau-edit">
+  <p><span><b>Mode édition</b> : tes changements restent dans ce navigateur. Pour qu'ils s'appliquent partout, y compris sur la page élèves, clique sur <b>Exporter</b> puis remplace <code>reglages.json</code> dans le dépôt <i>portail</i>.</span>
+    <button class="btn" id="bExport" type="button">Exporter</button>
+    <button class="btn" id="bImport" type="button">Importer</button>
+    <button class="btn" id="bReset" type="button">Annuler mes changements</button>
+    <input type="file" id="fImport" accept=".json,application/json" hidden>
+  </p>
+</div>
+
+<main id="main"></main>
+<p class="vide" id="vide" hidden>Aucune application ne correspond.</p>
+
+<footer>Portail mike8999 · un clic ouvre l'appli dans un nouvel onglet · raccourcis : / recherche · T thème · P QR du portail<span class="prof"> · E édition</span></footer>
+
+<!-- Fenêtre : édition d'une appli -->
+<dialog id="dApp">
+  <form method="dialog" id="formApp">
+    <div class="dlg-h"><h3 id="dAppT">Ajouter une application</h3><button class="x" value="cancel" formnovalidate aria-label="Fermer">×</button></div>
+    <div class="dlg-b">
+      <label class="f">Nom<input type="text" id="aNom" required maxlength="70"></label>
+      <label class="f">Adresse (lien)<input type="url" id="aUrl" required placeholder="https://…"></label>
+      <label class="f">Description (une phrase)<textarea id="aDesc" maxlength="160" placeholder="À quoi sert l'appli ?"></textarea></label>
+      <label class="f">Mode d'emploi (lien facultatif : fiche Notion, vidéo…)<input type="url" id="aDoc" placeholder="https://…"></label>
+      <div class="f">Niveaux<div class="choix" id="aNiv"></div></div>
+      <div class="f">Catégorie<div class="choix" id="aCat"></div></div>
+      <label class="chk solo"><input type="checkbox" id="aEleve">Visible sur la page élèves</label>
+      <div class="f">Icône<div class="icones" id="aIco"></div></div>
+    </div>
+    <div class="dlg-f"><button class="btn" value="cancel" formnovalidate>Annuler</button><button class="btn pri" value="ok">Enregistrer</button></div>
+  </form>
+</dialog>
+
+<!-- Fenêtre : boîte à idées -->
+<dialog id="dIdee">
+  <div class="dlg-h"><h3>Boîte à idées</h3><button class="x" type="button" data-close aria-label="Fermer">×</button></div>
+  <div class="dlg-b">
+    <div class="choix" id="iTypes"></div>
+    <label class="f">Ton idée<textarea id="iTxt" maxlength="600" placeholder="Une appli à ajouter, une amélioration, un bug…"></textarea></label>
+    <div class="count" id="iCount">0/600</div>
+    <input class="hp" id="iSite" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <p class="msg" id="iMsg"></p>
+  </div>
+  <div class="dlg-f"><button class="btn" type="button" data-close>Fermer</button><button class="btn pri" type="button" id="iSend">Envoyer</button></div>
+</dialog>
+
+<!-- Fenêtre : QR code en plein écran -->
+<dialog id="dQr" class="proj" aria-label="QR code en grand">
+  <div class="qrbox" id="qrBox"></div>
+  <h3 id="qrNom"></h3>
+  <p class="u" id="qrUrl"></p>
+  <p class="aide">Clic ou Échap pour fermer</p>
+</dialog>
+
+<div class="toast" id="toast" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<script>
+/* =====================================================================
+   RÉGLAGES GÉNÉRAUX
+   La liste des applis est dans apps.json ; les réglages publiés dans
+   reglages.json ; l'état automatique (pannes, dates, applis trouvées)
+   dans donnees/auto.json, rempli chaque jour par la tâche GitHub.
+   ===================================================================== */
+const CATS = [
+  {id:"sin",    nom:"SIN — numérique & réseaux"},
+  {id:"ee",     nom:"EE — énergie"},
+  {id:"itec",   nom:"ITEC — mécanique"},
+  {id:"jeux",   nom:"Jeux & révisions"},
+  {id:"eval",   nom:"Évaluations"},
+  {id:"fab",    nom:"Fablab"},
+  {id:"classe", nom:"Vie de classe & asso"},
+  {id:"perso",  nom:"Outils perso"},
+  {id:"neuf",   nom:"Nouveautés détectées"},
+];
+const NIVEAUX = [["College","Collège"],["2de","2de"],["1re","1re"],["Tle","Tle"],["BTS","BTS"]];
+const CATS_ELEVES = ["sin","ee","itec","jeux","fab"];      // visibles par défaut sur la page élèves
+const IGNORE = ["arduino","portail","STI2D_BTS_BUT"];        // dépôts à ne jamais proposer
+const JOURS_NOUVEAU = 30, JOURS_MAJ = 14;
+const GH = "https://mike8999.github.io/";
+
+/* ── Icônes : SVG 24×24, trait = currentColor ── */
+const I = {
+  scope:'<rect x="2.5" y="4" width="19" height="14" rx="2"/><path d="M5 13l3-5 3 7 3-9 2 7h3"/><path d="M8 21h8"/>',
+  wave:'<path d="M2 12c2-6 4-6 6 0s4 6 6 0 4-6 6 0"/><path d="M3 20h3v-3h3v-4h3v4h3v-6h3v9" stroke-width="1.4"/>',
+  network:'<rect x="9" y="2.5" width="6" height="5" rx="1"/><rect x="2.5" y="16.5" width="6" height="5" rx="1"/><rect x="15.5" y="16.5" width="6" height="5" rx="1"/><path d="M12 7.5V12M5.5 16.5V12h13v4.5"/>',
+  robot:'<rect x="5" y="7" width="14" height="11" rx="2"/><circle cx="9.5" cy="12" r="1.3"/><circle cx="14.5" cy="12" r="1.3"/><path d="M12 7V4M10 4h4M3 11v4M21 11v4M8 21v-3M16 21v-3"/>',
+  sun:'<circle cx="12" cy="8" r="3.2"/><path d="M12 1.8v1.6M5.8 8H4.2M19.8 8h-1.6M7.6 3.6l1.1 1.1M16.4 3.6l-1.1 1.1"/><path d="M3 21l3-7h12l3 7zM9 14l-1 7M15 14l1 7M4.5 17.5h15"/>',
+  bolt:'<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+  pump:'<circle cx="10" cy="13" r="6"/><circle cx="10" cy="13" r="2"/><path d="M10 7V3h8v4M16 13h5M10 19v2.5M6 21.5h8"/>',
+  gauge:'<path d="M3.5 17a8.5 8.5 0 1 1 17 0"/><path d="M12 17l4-6"/><circle cx="12" cy="17" r="1.4"/><path d="M6 17h1M17 17h1M12 8.5v1"/>',
+  battery:'<rect x="7" y="4" width="10" height="17" rx="2"/><path d="M10 2h4M10 9h4M12 7v4M10 16h4"/>',
+  gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/><circle cx="12" cy="12" r="6.5"/>',
+  x:'<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8l8 8M16 8l-8 8"/>',
+  leaf:'<path d="M5 19C5 10 10 4 20 4c0 10-6 15-15 15z"/><path d="M5 19 13 11"/>',
+  flask:'<path d="M9 3h6M10 3v6l-5.5 9.5A2 2 0 0 0 6.2 21h11.6a2 2 0 0 0 1.7-2.5L14 9V3"/><path d="M7 15h10"/>',
+  zap:'<path d="M3 12h4l2-6 4 12 2-6h6"/>',
+  clipboard:'<rect x="5" y="4" width="14" height="17" rx="2"/><rect x="9" y="2.5" width="6" height="3" rx="1"/><path d="M8.5 11l1.5 1.5 3-3M8.5 16.5h7"/>',
+  doc:'<path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5M8 13h8M8 17h5"/>',
+  trophy:'<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 14v3M8 21h8M9.5 17h5v4h-5z"/>',
+  mic:'<rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/>',
+  vote:'<path d="M3 13h18v8H3z"/><path d="M8 13V5.5L13.5 3l3 1.5V13"/><path d="M9.5 8.5l2 2 3-3"/>',
+  laser:'<path d="M4 3h16v5H4z"/><path d="M12 8v8" stroke-dasharray="2 1.6"/><path d="M8.5 19.5h7M12 16l-1.5 3.5M12 16l1.5 3.5M3 21.5h18"/>',
+  slides:'<rect x="2.5" y="3.5" width="19" height="13" rx="1.5"/><path d="M12 16.5V20M8 21.5l4-1.5 4 1.5M10 7.5l4.5 2.5-4.5 2.5z"/>',
+  check:'<rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M7 8l1.5 1.5L11 7M7 15l1.5 1.5L11 14M13.5 8.5H17M13.5 15.5H17"/>',
+  people:'<circle cx="9" cy="8" r="3.2"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.4"/><path d="M16.5 14a5 5 0 0 1 5 5"/>',
+  coins:'<ellipse cx="9" cy="7" rx="6" ry="2.5"/><path d="M3 7v4c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V7"/><path d="M9 13.5v3c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-4c0-1.4-2.7-2.5-6-2.5"/>',
+  tiles:'<rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8" transform="rotate(8 17 17)"/>',
+  chip:'<rect x="6" y="6" width="12" height="12" rx="1.5"/><path d="M9 2.5v3.5M15 2.5v3.5M9 18v3.5M15 18v3.5M2.5 9H6M2.5 15H6M18 9h3.5M18 15h3.5"/>',
+  globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+};
+I.book = '<path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H11v17H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 4.5A1.5 1.5 0 0 0 18.5 3H13v17h5.5a1.5 1.5 0 0 0 1.5-1.5z"/>';
+const svg = (k, sw=1.8) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[k]||I.globe}</svg>`;
+const HOST_ICO = {
+  github:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.5a10.5 10.5 0 0 0-3.3 20.5c.5.1.7-.2.7-.5v-1.9c-2.9.6-3.5-1.3-3.5-1.3-.5-1.2-1.2-1.5-1.2-1.5-.9-.6.1-.6.1-.6 1 .1 1.6 1.1 1.6 1.1.9 1.6 2.5 1.1 3.1.9.1-.7.4-1.1.7-1.4-2.3-.3-4.8-1.2-4.8-5.2 0-1.1.4-2.1 1.1-2.8-.1-.3-.5-1.4.1-2.8 0 0 .9-.3 2.9 1.1a10 10 0 0 1 5.2 0c2-1.4 2.9-1.1 2.9-1.1.6 1.4.2 2.5.1 2.8.7.7 1.1 1.7 1.1 2.8 0 4-2.5 4.9-4.8 5.2.4.3.7 1 .7 1.9v2.9c0 .3.2.6.7.5A10.5 10.5 0 0 0 12 1.5z"/></svg>',
+  netlify:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2 2 12l10 10 10-10z"/><path d="M8 12h8"/></svg>',
+};
+HOST_ICO.autre = svg("globe", 2);
+const HOSTS = {github:"GitHub", netlify:"Netlify", autre:"Autre"};
+const ICO_QR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg>';
+const ICO_STAR = '<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.8l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z"/></svg>';
+const ICO_OEIL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+const ICO_OEILX = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3.2 4M6.6 6.6A17 17 0 0 0 2 12s3.5 7 10 7a9.6 9.6 0 0 0 5.4-1.6"/></svg>';
+const ICO_POUB = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14"/></svg>';
+const ICO_PLUS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+
+/* =====================================================================
+   DONNÉES ET ÉTAT LOCAL
+   ===================================================================== */
+const ELEVES = new URLSearchParams(location.search).has("eleves");
+const KEY = "portail-mike8999" + (ELEVES ? "-eleves" : "");
+let APPS = [];                                        // apps.json
+let BASE = {edits:{}, ajouts:[], masques:[]};         // reglages.json
+let AUTO = {apps:{}, trouvees:[]};                    // donnees/auto.json
+let DETECT = [];                                      // repérées en direct depuis le navigateur
+const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
+let S = Object.assign({fav:[], cats:null, niv:null, hosts:["github","netlify"], edits:{}, ajouts:[], masques:[], affiches:[], theme:null}, load());
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} };
+let edition = false;
+const SANS_CAPTURE = new Set();   // captures absentes : on ne les redemande pas
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm = s => String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+const hostOf = u => /netlify\.app/i.test(u) ? "netlify" : /github\.io/i.test(u) ? "github" : "autre";
+const jours = d => (Date.now() - Date.parse(d)) / 864e5;
+const urlCle = u => String(u||"").toLowerCase().replace(/^http:/, "https:").replace(/\/?$/, "/");
+function toast(t){ const e=$("#toast"); e.textContent=t; e.classList.add("show"); clearTimeout(toast.t); toast.t=setTimeout(()=>e.classList.remove("show"),2600); }
+
+const estMasque = id => S.masques.includes(id) || (BASE.masques.includes(id) && !S.affiches.includes(id));
+const eleveOf = a => a.eleve !== undefined ? a.eleve : CATS_ELEVES.includes(a.cat);
+const statut = a => (AUTO.apps||{})[a.id] || {};
+
+function trouvees(){
+  const connues = new Set(APPS.flatMap(a => [a.url, a.alt]).concat(BASE.ajouts.map(a=>a.url), S.ajouts.map(a=>a.url)).filter(Boolean).map(urlCle));
+  const vues = new Set(), l = [];
+  for (const a of (AUTO.trouvees||[]).concat(DETECT)){
+    const k = urlCle(a.url);
+    if (connues.has(k) || vues.has(k)) continue;
+    vues.add(k); l.push({ico:"globe", ...a, cat:"neuf", auto:true});
+  }
+  return l;
+}
+function allApps(){
+  const ed = a => ({...a, ...(BASE.edits[a.id]||{}), ...(S.edits[a.id]||{})});
+  const ids = new Set(S.ajouts.map(a=>a.id));
+  const ajouts = BASE.ajouts.filter(a => !ids.has(a.id)).concat(S.ajouts);
+  const l = APPS.map(ed)
+    .concat(ajouts.map(a => ({...ed(a), host:hostOf(a.url), perso:true})))
+    .concat(trouvees().map(ed));
+  return ELEVES ? l.filter(a => a.cat!=="neuf" && eleveOf(a) && !estMasque(a.id)) : l;
+}
+
+/* =====================================================================
+   FILTRES
+   ===================================================================== */
+function buildFilters(){
+  const apps = allApps(), present = new Set(apps.map(a => a.cat));
+  const cats = CATS.filter(c => present.has(c.id) || (!ELEVES && c.id!=="neuf"));
+  const nivs = NIVEAUX.filter(([v]) => apps.some(a => (a.niveaux||[]).includes(v)));
+  if (!S.cats) S.cats = CATS.map(c=>c.id);
+  if (!S.niv) S.niv = NIVEAUX.map(n=>n[0]);
+  $("#fCat").innerHTML = '<span>Catégories</span>' + cats.map(c =>
+    `<label class="chk" style="--k:var(--c-${c.id})"><input type="checkbox" value="${c.id}" ${S.cats.includes(c.id)?"checked":""}><i></i>${esc(c.nom.split(" — ")[0])}</label>`).join("");
+  $("#fNiv").innerHTML = nivs.length ? '<span>Niveau</span>' + nivs.map(([v,l]) =>
+    `<label class="chk"><input type="checkbox" value="${v}" ${S.niv.includes(v)?"checked":""}>${l}</label>`).join("") : "";
+  $("#fHost").innerHTML = '<span>Hébergeur</span>' + ["github","netlify"].map(h =>
+    `<label class="chk"><input type="checkbox" value="${h}" ${S.hosts.includes(h)?"checked":""}>${HOSTS[h]}</label>`).join("");
+  const lire = (sel, cle) => $(sel).onchange = () => { S[cle] = [...$(sel).querySelectorAll("input:checked")].map(i=>i.value); save(); render(); };
+  lire("#fCat","cats"); lire("#fNiv","niv"); lire("#fHost","hosts");
+}
+
+/* =====================================================================
+   PLAQUES
+   ===================================================================== */
+function tile(a){
+  const fav = S.fav.includes(a.id), masque = estMasque(a.id), st = statut(a);
+  const panne = st.statut !== undefined && (st.statut === 0 || st.statut >= 400);
+  const nouveau = (st.vu && st.vu !== "initial" && jours(st.vu) <= JOURS_NOUVEAU) || (a.auto && !ELEVES);
+  const maj = !nouveau && st.modif && jours(st.modif) <= JOURS_MAJ;
+  const niv = (a.niveaux||[]).map(v => (NIVEAUX.find(n=>n[0]===v)||[v,v])[1]).join(" · ");
+  const alt = a.alt ? ` (aussi sur ${HOSTS[hostOf(a.alt)]})` : "";
+  return `<div class="tile${masque?" masque":""}${panne?" ko":""}" style="--k:var(--c-${a.cat})" data-id="${esc(a.id)}">
+    <a class="lien" href="${esc(a.url)}" target="_blank" rel="noopener" title="${esc(a.nom)}${a.desc?" — "+esc(a.desc):""}${alt}" aria-label="Ouvrir ${esc(a.nom)}"></a>
+    <div class="badges">${panne?`<span class="badge panne">Hors ligne</span>`:""}${nouveau?`<span class="badge nouveau">Nouveau</span>`:""}${maj?`<span class="badge maj">Mis à jour</span>`:""}</div>
+    <div class="acts">
+      ${a.doc?`<a class="op" href="${esc(a.doc)}" target="_blank" rel="noopener" aria-label="Mode d'emploi" title="Mode d'emploi">${svg("book",2)}</a>`:""}
+      <button class="op" type="button" data-qr aria-label="QR code à projeter" title="QR code à projeter">${ICO_QR}</button>
+      <button class="star${fav?" on":""}" type="button" data-star aria-label="${fav?"Retirer des":"Ajouter aux"} favoris" aria-pressed="${fav}">${ICO_STAR}</button>
+    </div>
+    <div class="edit-bar">
+      <button type="button" data-edit aria-label="Modifier">${svg("doc",2)}</button>
+      <button type="button" data-hide aria-label="${masque?"Afficher":"Masquer"}">${masque?ICO_OEIL:ICO_OEILX}</button>
+      ${a.perso?`<button type="button" data-del aria-label="Supprimer">${ICO_POUB}</button>`:""}
+    </div>
+    <div class="pic">${svg(a.ico)}${SANS_CAPTURE.has(a.id)?"":`<img class="shot" src="captures/${esc(a.id)}.jpg" alt="" loading="lazy" data-id="${esc(a.id)}" onerror="SANS_CAPTURE.add(this.dataset.id);this.remove()">`}${a.desc?`<p class="desc">${esc(a.desc)}</p>`:""}</div>
+    <div class="txt"><div class="nom">${esc(a.nom)}</div>
+      <div class="meta"><span class="host">${HOST_ICO[a.host]||""}${HOSTS[a.host]||""}${a.alt?" +":""}</span><span class="niv">${esc(niv)}</span></div></div>
+  </div>`;
+}
+
+function render(){
+  const q = norm($("#q").value.trim());
+  const apps = allApps();
+  const vis = apps.filter(a =>
+    (edition || !estMasque(a.id)) &&
+    S.cats.includes(a.cat) &&
+    (!(a.niveaux||[]).length || a.niveaux.some(v => S.niv.includes(v))) &&
+    (S.hosts.includes(a.host) || a.host==="autre") &&
+    (!q || norm([a.nom, a.desc, a.url, (a.niveaux||[]).join(" "), (CATS.find(c=>c.id===a.cat)||{}).nom].join(" ")).includes(q)));
+
+  let html = "";
+  const favs = vis.filter(a => S.fav.includes(a.id));
+  if (favs.length && !edition) html += `<section class="sec"><h2 style="--k:#e0a100"><i></i>Favoris<small>${favs.length}</small></h2><div class="grid">${favs.map(tile).join("")}</div></section>`;
+  for (const c of CATS){
+    const l = vis.filter(a => a.cat===c.id);
+    if (!l.length && !(edition && S.cats.includes(c.id) && c.id!=="neuf")) continue;
+    html += `<section class="sec"><h2 style="--k:var(--c-${c.id})"><i></i>${esc(c.nom)}<small>${l.length}</small></h2><div class="grid">${l.map(tile).join("")}${c.id!=="neuf"?`<button class="add" type="button" data-add="${c.id}">${ICO_PLUS}Ajouter</button>`:""}</div></section>`;
+  }
+  $("#main").innerHTML = html;
+  $("#vide").hidden = !!vis.length || edition || !APPS.length;
+
+  const shown = apps.filter(a => !estMasque(a.id));
+  const sur = h => shown.filter(a => a.host===h || (a.alt && hostOf(a.alt)===h)).length;
+  const pannes = shown.filter(a => { const s = statut(a).statut; return s !== undefined && (s === 0 || s >= 400); }).length;
+  $("#nTotal").textContent = shown.length; $("#nGit").textContent = sur("github"); $("#nNet").textContent = sur("netlify");
+  $("#nFav").textContent = S.fav.length; $("#nPanne").textContent = AUTO.maj ? pannes : "—";
+  $("#cPanne").classList.toggle("ko", pannes > 0);
+}
+
+/* ── Clics sur les plaques ── */
+$("#main").addEventListener("click", e => {
+  const add = e.target.closest("[data-add]");
+  if (add){ openApp(null, add.dataset.add); return; }
+  const t = e.target.closest(".tile"); if (!t) return;
+  const id = t.dataset.id, a = allApps().find(x=>x.id===id);
+  if (e.target.closest(".lien")){ if (edition){ e.preventDefault(); openApp(id); } return; }
+  if (e.target.closest("[data-star]")){
+    S.fav = S.fav.includes(id) ? S.fav.filter(x=>x!==id) : [...S.fav, id]; save(); render(); return; }
+  if (e.target.closest("[data-qr]")){ showQr(a.nom, a.url); return; }
+  if (e.target.closest("[data-hide]")){
+    if (estMasque(id)){ S.masques = S.masques.filter(x=>x!==id); if (BASE.masques.includes(id)) S.affiches.push(id); }
+    else { S.affiches = S.affiches.filter(x=>x!==id); if (!BASE.masques.includes(id)) S.masques.push(id); }
+    save(); render(); return; }
+  if (e.target.closest("[data-del]")){
+    if (confirm("Supprimer cette application du portail ?")){
+      S.ajouts = S.ajouts.filter(x=>x.id!==id); if (BASE.ajouts.some(x=>x.id===id)) S.masques.push(id);
+      S.fav = S.fav.filter(x=>x!==id); save(); render(); } return; }
+  if (e.target.closest("[data-edit]")) openApp(id);
+});
+
+/* =====================================================================
+   AJOUT / MODIFICATION
+   ===================================================================== */
+let editId = null;
+function openApp(id, cat){
+  editId = id;
+  const a = id ? allApps().find(x=>x.id===id) : {nom:"", url:"", desc:"", doc:"", niveaux:[], cat:cat||"sin", ico:"globe"};
+  $("#dAppT").textContent = id ? "Modifier l'application" : "Ajouter une application";
+  $("#aNom").value = a.nom||""; $("#aUrl").value = a.url||""; $("#aDesc").value = a.desc||""; $("#aDoc").value = a.doc||"";
+  $("#aNiv").innerHTML = NIVEAUX.map(([v,l]) => `<label class="chk"><input type="checkbox" value="${v}" ${(a.niveaux||[]).includes(v)?"checked":""}>${l}</label>`).join("");
+  $("#aCat").innerHTML = CATS.filter(c=>c.id!=="neuf").map(c => `<label class="chk" style="--k:var(--c-${c.id})"><input type="radio" name="acat" value="${c.id}" ${c.id===a.cat?"checked":""}><i></i>${esc(c.nom.split(" — ")[0])}</label>`).join("");
+  $("#aIco").innerHTML = Object.keys(I).filter(k=>k!=="book").map(k => `<label title="${k}"><input type="radio" name="aico" value="${k}" ${k===a.ico?"checked":""}><span>${svg(k)}</span></label>`).join("");
+  const ce = $("#aEleve"); ce.checked = eleveOf(a); delete ce.dataset.touched; ce.onchange = () => ce.dataset.touched = 1;
+  $("#aCat").onchange = e => { if (!ce.dataset.touched) ce.checked = CATS_ELEVES.includes(e.target.value); };
+  $("#dApp").showModal();
+}
+$("#formApp").addEventListener("submit", e => {
+  if (!e.submitter || e.submitter.value !== "ok") return;
+  const cat = (document.querySelector("input[name=acat]:checked")||{}).value || "sin";
+  const v = {nom:$("#aNom").value.trim(), url:$("#aUrl").value.trim(), desc:$("#aDesc").value.trim(), doc:$("#aDoc").value.trim(),
+    niveaux:[...$("#aNiv").querySelectorAll("input:checked")].map(i=>i.value), cat,
+    ico:(document.querySelector("input[name=aico]:checked")||{}).value || "globe", eleve:$("#aEleve").checked};
+  if (!editId){ S.ajouts.push({id:"p"+Date.now(), ...v}); toast("Application ajoutée"); }
+  else if (S.ajouts.some(a=>a.id===editId)){ S.ajouts = S.ajouts.map(a => a.id===editId ? {...a, ...v} : a); toast("Modifiée"); }
+  else { S.edits[editId] = v; toast("Modifiée"); }
+  save(); buildFilters(); render();
+});
+
+/* ── Mode édition, export / import ── */
+function setEdition(on){ edition = on; document.body.classList.toggle("edition", on);
+  $("#bEdit").classList.toggle("on", on); $("#bEdit").setAttribute("aria-pressed", on); render(); }
+$("#bEdit").onclick = () => setEdition(!edition);
+$("#bExport").onclick = () => {
+  const edits = {...BASE.edits}; for (const [k,v] of Object.entries(S.edits)) edits[k] = {...(edits[k]||{}), ...v};
+  const ids = new Set(S.ajouts.map(a=>a.id));
+  const ajouts = BASE.ajouts.filter(a => !ids.has(a.id)).concat(S.ajouts);
+  for (const a of trouvees()){ const e = edits[a.id];                 // nouveautés classées → applis à part entière
+    if (e && e.cat && e.cat!=="neuf"){ ajouts.push({id:a.id, url:a.url, ico:a.ico, ...e}); delete edits[a.id]; } }
+  const masques = [...new Set(BASE.masques.filter(id => !S.affiches.includes(id)).concat(S.masques))];
+  const data = {version:1, date:new Date().toISOString().slice(0,10), edits, ajouts, masques};
+  const b = new Blob([JSON.stringify(data, null, 2)], {type:"application/json"});
+  const l = document.createElement("a"); l.href = URL.createObjectURL(b); l.download = "reglages.json"; l.click(); URL.revokeObjectURL(l.href);
+};
+$("#bImport").onclick = () => $("#fImport").click();
+$("#fImport").onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  try { const d = JSON.parse(await f.text());
+    ["edits","ajouts","masques"].forEach(k => { if (d[k]) S[k] = d[k]; }); save(); buildFilters(); render(); toast("Réglages importés"); }
+  catch { toast("Fichier illisible"); }
+  e.target.value = "";
+};
+$("#bReset").onclick = () => { if (confirm("Annuler les changements faits dans ce navigateur ? (reglages.json publié et favoris conservés)")){
+  Object.assign(S, {edits:{}, ajouts:[], masques:[], affiches:[]}); save(); buildFilters(); render(); toast("Changements annulés"); } };
+
+/* ── Thème ── */
+function applyTheme(){ const t = S.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  document.documentElement.dataset.theme = t; $("#themeIco").textContent = t==="dark" ? "☀" : "☾"; }
+$("#bTheme").onclick = () => { S.theme = document.documentElement.dataset.theme==="dark" ? "light" : "dark"; save(); applyTheme(); };
+
+/* ── QR code en plein écran ── */
+function showQr(nom, url){
+  const box = $("#qrBox");
+  try { const q = qrcode(0, "M"); q.addData(url); q.make(); box.innerHTML = q.createSvgTag({cellSize:8, margin:2, scalable:true}); }
+  catch { box.innerHTML = '<p style="display:grid;place-items:center;height:100%;color:#888">QR indisponible hors connexion</p>'; }
+  $("#qrNom").textContent = nom; $("#qrUrl").textContent = url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+  $("#dQr").showModal();
+}
+$("#dQr").onclick = () => $("#dQr").close();
+$("#bQrPortail").onclick = () => showQr(ELEVES ? "Applications STI2D" : "Mes applications", location.href.split("#")[0]);
+
+/* ── Boîte à idées (même base Notion que les autres applis) ── */
+const IDEES = "https://isole-x.netlify.app/.netlify/functions/idees";
+const TYPES = [["Fonctionnalité","Une appli à ajouter / une fonction"],["Ergonomie","Ergonomie"],["Bug","Un bug"],["Autre","Autre"]];
+$("#iTypes").innerHTML = TYPES.map(([v,l],k) => `<label class="chk"><input type="radio" name="itype" value="${v}" ${k===0?"checked":""}>${l}</label>`).join("");
+$("#bIdee").onclick = () => { $("#dIdee").showModal(); setTimeout(()=>$("#iTxt").focus(), 50); };
+$("#dIdee").addEventListener("click", e => { if (e.target.closest("[data-close]")) $("#dIdee").close(); });
+$("#iTxt").oninput = e => $("#iCount").textContent = e.target.value.length + "/600";
+$("#iSend").onclick = async () => {
+  const t = $("#iTxt"), m = $("#iMsg"), b = $("#iSend"), texte = t.value.trim();
+  if (texte.length < 5){ m.className = "msg err"; m.textContent = "Écris au moins quelques mots."; return; }
+  b.disabled = true; m.className = "msg"; m.textContent = "Envoi…";
+  try {
+    const r = await fetch(IDEES, {method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({texte, type:document.querySelector("input[name=itype]:checked").value,
+        ecran:`Portail des applications${ELEVES?" (élèves)":""} · ${allApps().length} applis`, site:$("#iSite").value})});
+    const j = await r.json().catch(()=>({})); if (!r.ok || !j.ok) throw new Error(j.error || "Erreur " + r.status);
+    t.value = ""; $("#iCount").textContent = "0/600"; m.className = "msg ok"; m.textContent = "Merci, ton idée a bien été envoyée.";
+  } catch(err){ m.className = "msg err";
+    m.textContent = (navigator.onLine===false ? "Pas de connexion Internet." : err.message && err.message!=="Failed to fetch" ? err.message : "Serveur injoignable, réessaie plus tard.") + " Ton texte est gardé."; }
+  b.disabled = false;
+};
+
+/* ── Repérage en direct des dépôts GitHub (complète la tâche quotidienne) ── */
+async function detect(){
+  if (ELEVES) return;
+  let repos;
+  try { const c = JSON.parse(sessionStorage.getItem(KEY+"-repos")||"null"); if (c && Date.now()-c.t < 36e5) repos = c.r; } catch {}
+  if (!repos){
+    try { const r = await fetch("https://api.github.com/users/mike8999/repos?per_page=100&sort=pushed"); if (!r.ok) return;
+      repos = (await r.json()).filter(x => x.has_pages && !x.fork && !x.archived).map(x => ({n:x.name, d:x.description||""}));
+      try { sessionStorage.setItem(KEY+"-repos", JSON.stringify({t:Date.now(), r:repos})); } catch {}
+    } catch { return; }
+  }
+  const joli = n => n.replace(/[-_]+/g, " ").replace(/\s+/g, " ").trim().replace(/^./, c => c.toUpperCase());
+  DETECT = repos.filter(r => !IGNORE.includes(r.n)).map(r => ({id:"gh-"+r.n, nom:joli(r.n), desc:r.d.slice(0,140), url:GH+r.n+"/", host:"github"}));
+  const n = trouvees().filter(a => !(S.edits[a.id]||BASE.edits[a.id]||{}).cat && !estMasque(a.id)).length;
+  buildFilters(); render();
+  if (n) toast(n + (n>1 ? " nouvelles applis à classer" : " nouvelle appli à classer") + " (en bas de page)");
+}
+
+/* ── Installation (appli hors ligne) ── */
+let invite = null;
+addEventListener("beforeinstallprompt", e => { e.preventDefault(); invite = e; $("#bInstall").hidden = false; });
+$("#bInstall").onclick = async () => { if (!invite) return; invite.prompt(); await invite.userChoice; invite = null; $("#bInstall").hidden = true; };
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) navigator.serviceWorker.register("sw.js").catch(()=>{});
+
+/* ── Raccourcis clavier ── */
+document.addEventListener("keydown", e => {
+  if (e.target.matches("input,textarea,select") || document.querySelector("dialog[open]")) { if (e.key==="Escape" && e.target.id==="q"){ e.target.value=""; render(); } return; }
+  const k = e.key.toLowerCase();
+  if (e.key === "/"){ e.preventDefault(); $("#q").focus(); }
+  else if (k === "t") $("#bTheme").click();
+  else if (k === "p") $("#bQrPortail").click();
+  else if (k === "e" && !ELEVES) setEdition(!edition);
+});
+$("#q").addEventListener("input", render);
+
+/* =====================================================================
+   DÉMARRAGE
+   ===================================================================== */
+if (ELEVES){
+  document.body.classList.add("eleves");
+  document.title = "Applications STI2D — espace élèves";
+  $(".titre small").textContent = "Lycée · STI2D · espace élèves";
+  $(".titre h1").innerHTML = "Applications <span>STI2D</span>";
+}
+applyTheme();
+const lireJson = u => fetch(u, {cache:"no-cache"}).then(r => r.ok ? r.json() : null).catch(() => null);
+Promise.all([lireJson("apps.json"), lireJson("reglages.json"), lireJson("donnees/auto.json")]).then(([apps, reg, auto]) => {
+  if (!apps){ $("#vide").hidden = false; $("#vide").textContent = "Impossible de charger la liste des applis (apps.json). Ouvre le portail depuis son adresse en ligne."; return; }
+  APPS = apps.apps || [];
+  if (reg) BASE = {edits:reg.edits||{}, ajouts:reg.ajouts||[], masques:reg.masques||[]};
+  if (auto) AUTO = auto;
+  if (AUTO.maj) $("#majInfo").textContent = "Vérifié le " + new Date(AUTO.maj).toLocaleDateString("fr-FR", {day:"numeric", month:"long"}) + " à " + new Date(AUTO.maj).toLocaleTimeString("fr-FR", {hour:"2-digit", minute:"2-digit"});
+  buildFilters(); render(); detect();
+});
+</script>
+</body>
+</html>
