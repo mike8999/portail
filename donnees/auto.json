@@ -1,9 +1,9 @@
 {
- "maj": "2026-11-27T13:53+00:00",
+ "maj": "2026-11-28T13:00+00:00",
  "apps": {
   "moniteur": {
    "statut": 200,
-   "modif": "2026-11-26",
+   "modif": "2026-11-27",
    "vu": "initial"
   },
   "can": {
@@ -63,12 +63,12 @@
   },
   "jungle": {
    "statut": 200,
-   "modif": "2026-11-26",
+   "modif": "2026-11-27",
    "vu": "initial"
   },
   "atelier": {
    "statut": 200,
-   "modif": "2026-11-25",
+   "modif": "2026-11-27",
    "vu": "initial"
   },
   "neon": {
@@ -128,7 +128,7 @@
   },
   "impots": {
    "statut": 200,
-   "modif": "2026-07-05",
+   "modif": "2026-11-27",
    "vu": "initial"
   },
   "calepinage": {
